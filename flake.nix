@@ -26,7 +26,7 @@
         ]; inherit system;
       }; {
       devShells.default = mkShell {
-        packages = [ go gopls gow revive ];
+        packages = [ go gopls gow ];
       };
     });
 }
