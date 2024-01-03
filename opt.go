@@ -36,6 +36,28 @@ func FromPtr[T any](p *T) Opt[T] {
 	return Some(*p)
 }
 
+// FromValOk converts a value and a bool to an option. When ok is false the
+// result is an option containing no value, and when ok is true the result
+// contains v.
+func FromValOk[T any](v T, ok bool) Opt[T] {
+	if !ok {
+		return None[T]()
+	}
+
+	return Some(v)
+}
+
+// FromValErr converts a value and an error to an option. When err is non-nil
+// the result is an option containing no value, and when err is nil the result
+// contains v.
+func FromValErr[T any](v T, err error) Opt[T] {
+	if err != nil {
+		return None[T]()
+	}
+
+	return Some(v)
+}
+
 // Get returns the wrapped value and true if the option contains a value.
 // Otherwise, it returns the zero value for T and false.
 func (o Opt[T]) Get() (v T, ok bool) {

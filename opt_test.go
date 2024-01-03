@@ -33,6 +33,38 @@ func TestFromPtr(t *testing.T) {
 	})
 }
 
+func TestFromValOk(t *testing.T) {
+	t.Run("false", func(t *testing.T) {
+		if FromValOk(0, false).IsSome() {
+			t.Fatal("shouldn't be some")
+		}
+	})
+
+	t.Run("true", func(t *testing.T) {
+		expected := Opt[int]{value: 7, isSome: true}
+
+		assertEqual(t, expected, FromValOk(7, true))
+	})
+}
+
+type testError struct{}
+
+func (testError) Error() string { return "test error" }
+
+func TestFromValErr(t *testing.T) {
+	t.Run("non-nil", func(t *testing.T) {
+		if FromValErr(0, testError{}).IsSome() {
+			t.Fatal("shouldn't be some")
+		}
+	})
+
+	t.Run("nil", func(t *testing.T) {
+		expected := Opt[int]{value: 7, isSome: true}
+
+		assertEqual(t, expected, FromValErr(7, nil))
+	})
+}
+
 func TestOpt_Get(t *testing.T) {
 	t.Run("none", func(t *testing.T) {
 		actual, actualOk := None[int]().Get()
