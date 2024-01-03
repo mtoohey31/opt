@@ -1,4 +1,5 @@
-**.test
-**.out
-
 /result
+/.direnv
+
+*.test
+*.out
